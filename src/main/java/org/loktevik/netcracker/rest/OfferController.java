@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.loktevik.netcracker.domain.Category;
 import org.loktevik.netcracker.domain.Characteristic;
 import org.loktevik.netcracker.domain.Offer;
-import org.loktevik.netcracker.rest.classes.CategoryResponse;
-import org.loktevik.netcracker.rest.classes.OfferResponse;
-import org.loktevik.netcracker.rest.classes.OffersResponseBody;
+import org.loktevik.netcracker.rest.dto.*;
 import org.loktevik.netcracker.service.CategoryService;
 import org.loktevik.netcracker.service.CharacteristicService;
 import org.loktevik.netcracker.service.OfferService;
@@ -16,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,8 +34,15 @@ public class OfferController {
     }
 
     @GetMapping(value="/full-info",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OffersResponseBody> getOffersFullInfo(){
-        OffersResponseBody responseBody = getOffersResponseBody();
+    public ResponseEntity<OffersResponseBody> getOffersFullInfo(@RequestBody CustomerPaidTypes paidtypes){
+        OffersResponseBody responseBody = getOffersResponseBody(paidtypes.getPaidtypeIds());
+
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    @PostMapping(value="/full-info",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OffersResponseBody> getOffersInfo(@RequestBody CustomerPaidTypes paidtypes){
+        OffersResponseBody responseBody = getOffersResponseBody(paidtypes.getPaidtypeIds());
 
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
@@ -57,6 +63,13 @@ public class OfferController {
         return new ResponseEntity<>(offerService.saveOffer(offer), HttpStatus.CREATED);
     }
 
+//    @PostMapping(value = "/new-order", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<?> createOrder(@RequestBody OrderInfo orderInfo){
+//        long customerId = orderInfo.getCustomerId();
+//        long offerId = orderInfo.getOfferId();
+//        int amount = orderInfo.getAmount();
+//    }
+
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Offer> updateOffer(@RequestBody Offer offer){
         offerService.updateOffer(offer);
@@ -71,7 +84,8 @@ public class OfferController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public OffersResponseBody getOffersResponseBody(){
+    public OffersResponseBody getOffersResponseBody(Long [] paidtypes){
+        List<Long> ids = Arrays.asList(paidtypes);
         OffersResponseBody responseBody = new OffersResponseBody();
         List<OfferResponse> offerResponses = new ArrayList<>();
         List<CategoryResponse> categoryResponses = new ArrayList<>();
@@ -80,6 +94,7 @@ public class OfferController {
         List<Category> categories = categoryService.getAll();
 
         offers.stream()
+                .filter(offer -> ids.contains((long)offer.getPaidTypeId()))
                 .forEach(offer -> {
                     OfferResponse response = new OfferResponse();
                     response.setId(offer.getId());

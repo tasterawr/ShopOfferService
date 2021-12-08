@@ -1,4 +1,4 @@
-package org.loktevik.netcracker.rest.classes;
+package org.loktevik.netcracker.rest.dto;
 
 import lombok.Data;
 
