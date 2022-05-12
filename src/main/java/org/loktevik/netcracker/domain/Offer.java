@@ -1,5 +1,6 @@
 package org.loktevik.netcracker.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"category"})
 public class Offer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +22,7 @@ public class Offer {
     private Double price;
 
     @Column(name = "paidtype_id")
-    private int paidTypeId;
+    private Long paidTypeId;
 
     @OneToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
@@ -33,4 +35,8 @@ public class Offer {
             inverseJoinColumns = {@JoinColumn(name="characteristic_id")}
     )
     private List<Characteristic> characteristics;
+
+    public String toString(){
+        return id.toString();
+    }
 }

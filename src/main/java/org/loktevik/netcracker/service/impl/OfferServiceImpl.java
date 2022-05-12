@@ -8,9 +8,14 @@ import org.loktevik.netcracker.repository.OfferRepository;
 import org.loktevik.netcracker.service.OfferService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * Service implementation class for Offer model. Implements methods from OfferService.
+ */
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class OfferServiceImpl implements OfferService {
     private final Logger log = Logger.getLogger(OfferServiceImpl.class);

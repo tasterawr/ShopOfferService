@@ -3,6 +3,6 @@ package org.loktevik.netcracker.rest.dto;
 import lombok.Data;
 
 @Data
-public class CustomerPaidTypes {
+public class CustomerPaidTypesDto {
     private Long[] paidtypeIds;
 }

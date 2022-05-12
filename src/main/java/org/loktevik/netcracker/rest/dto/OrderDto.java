@@ -3,7 +3,7 @@ package org.loktevik.netcracker.rest.dto;
 import lombok.Data;
 
 @Data
-public class OrderInfo {
+public class OrderDto {
     private Long orderId;
     private Long offerId;
     private String name;

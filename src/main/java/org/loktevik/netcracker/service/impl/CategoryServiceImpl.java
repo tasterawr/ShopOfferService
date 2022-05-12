@@ -8,9 +8,14 @@ import org.loktevik.netcracker.repository.CategoryRepository;
 import org.loktevik.netcracker.service.CategoryService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * Service implementation class for Category model. Implements methods from CategoryService.
+ */
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
     private final Logger log = Logger.getLogger(CategoryServiceImpl.class);

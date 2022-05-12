@@ -8,9 +8,14 @@ import org.loktevik.netcracker.repository.CharacteristicRepository;
 import org.loktevik.netcracker.service.CharacteristicService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * Service implementation class for Characteristic model. Implements methods from CharacteristicService.
+ */
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CharacteristicServiceImpl implements CharacteristicService {
     private final Logger log = Logger.getLogger(CharacteristicServiceImpl.class);
