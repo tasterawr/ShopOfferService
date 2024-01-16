@@ -1,2 +1,2 @@
 # ShopOfferService
-Repository for Netcracker Practice Spring project's microservice (offer service).
+Repository for Practice Spring project's microservice (offer service).
