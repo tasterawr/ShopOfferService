@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  offer-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      db-url: jdbc:postgresql://offer-db:5433/OFFER_SERVICE_DB
+      db-username: root
+      db-password: root
+    depends_on:
+      - offer-db
+    ports:
+      - "8082:8082"
+    networks:
+      - clientservice_default
+    restart: always
+
+  offer-db:
+    image: postgres
+    ports:
+      - "5433:5433"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: OFFER_SERVICE_DB
+    volumes:
+      - ./db-init-scripts:/docker-entrypoint-initdb.d
+    restart: always
+    networks:
+      - clientservice_default
+
+networks:
+  clientservice_default:
+    external: true
